@@ -4,7 +4,7 @@
 
 ```javascript
 var gulp = require('gulp');
-var commonTasks = require('gulp-common-tasks')
+var commonTasks = require('gulp-common-tasks');
 
 gulp.task('js', commonTasks.js('js/index.js', 'dist/js'));
 gulp.task('css', commonTasks.sass('sass/all.scss', 'dist/css'));

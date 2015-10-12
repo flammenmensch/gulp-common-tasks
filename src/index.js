@@ -11,20 +11,32 @@ var _ = require('lodash');
 
 function jsTask(src, dst, opts) {
   return function() {
-    return browserify({ entries: src })
-      .transform(babelify.configure({ optional: [ 'es7.objectRestSpread' ] }))
+    opts = _.defaultsDeep({}, opts, {
+      outFilename: 'bundle.js',
+      babel: {
+        optional: [ 'es7.objectRestSpread' ]
+      }
+    });
+
+    return browserify({ entries: [ src ] })
+      .transform(babelify.configure(opts.babel))
       .transform(reactify)
       .bundle()
-      .pipe(source('bundle.js'))
+      .pipe(plugins.plumberNotifier())
+      .pipe(source(opts.outFilename))
       .pipe(plugins.eslint())
       .pipe(gulp.dest(dst));
-
   }
 }
 
 function sassTask(src, dst, opts) {
   return function() {
+    opts = _.defaultsDeep({}, opts, {
+      sass: {}
+    });
+
     return gulp.src(source)
+      .pipe(plugins.plumberNotifier())
       .pipe(plugins.sass())
       .pipe(gulp.dest(dst));
   }
@@ -32,5 +44,5 @@ function sassTask(src, dst, opts) {
 
 module.exports = {
   js: jsTask,
-  sass: cssTask
+  sass: sassTask
 };
