@@ -41,7 +41,7 @@ function sassTask(src, dst, opts) {
     return gulp.src(src)
       .pipe(plugins.plumberNotifier())
       .pipe(plugins.sass())
-      .pipe(plugins.if(isRename, plugins.rename(opts.outFilename))
+      .pipe(plugins.if(isRename, plugins.rename(opts.outFilename)))
       .pipe(gulp.dest(dst));
   }
 }
