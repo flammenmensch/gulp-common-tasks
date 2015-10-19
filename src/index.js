@@ -35,9 +35,10 @@ function sassTask(src, dst, opts) {
       sass: {}
     });
 
-    return gulp.src(source)
+    return gulp.src(src)
       .pipe(plugins.plumberNotifier())
       .pipe(plugins.sass())
+      .pipe(plugins.rename(opts.outFilename))
       .pipe(gulp.dest(dst));
   }
 }
