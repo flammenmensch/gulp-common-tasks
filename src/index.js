@@ -34,11 +34,14 @@ function sassTask(src, dst, opts) {
     opts = _.defaultsDeep({}, opts, {
       sass: {}
     });
-
+    
+    var outFilename = opts.outFilename;
+    var isRename = outFilename != null && outFilename !== '';
+    
     return gulp.src(src)
       .pipe(plugins.plumberNotifier())
       .pipe(plugins.sass())
-      .pipe(plugins.rename(opts.outFilename))
+      .pipe(plugins.if(isRename, plugins.rename(opts.outFilename))
       .pipe(gulp.dest(dst));
   }
 }
