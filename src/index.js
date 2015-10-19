@@ -32,12 +32,14 @@ function jsTask(src, dst, opts) {
 function sassTask(src, dst, opts) {
   return function() {
     opts = _.defaultsDeep({}, opts, {
+      outFilename: 'styles.css',
       sass: {}
     });
-
-    return gulp.src(source)
+    
+    return gulp.src(src)
       .pipe(plugins.plumberNotifier())
       .pipe(plugins.sass())
+      .pipe(plugins.rename(opts.outFilename))
       .pipe(gulp.dest(dst));
   }
 }
