@@ -31,7 +31,6 @@
     "gulp-load-plugins": "^0.10.0",
     "gulp-plumber-notifier": "0.0.2",
     "gulp-rename": "^1.2.2",
-    "gulp-if": "^1.0.0",
     "gulp-sass": "^2.0.4",
     "lodash": "^3.10.1",
     "reactify": "^1.1.1",
