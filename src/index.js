@@ -32,16 +32,14 @@ function jsTask(src, dst, opts) {
 function sassTask(src, dst, opts) {
   return function() {
     opts = _.defaultsDeep({}, opts, {
+      outFilename: 'styles.css',
       sass: {}
     });
-    
-    var outFilename = opts.outFilename;
-    var isRename = outFilename != null && outFilename !== '';
     
     return gulp.src(src)
       .pipe(plugins.plumberNotifier())
       .pipe(plugins.sass())
-      .pipe(plugins.if(isRename, plugins.rename(opts.outFilename)))
+      .pipe(plugins.rename(opts.outFilename))
       .pipe(gulp.dest(dst));
   }
 }
