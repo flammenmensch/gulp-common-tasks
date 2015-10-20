@@ -23,6 +23,7 @@
   "author": "FLammenmensch <maleventum@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "babel-runtime": "^5.8.20",
     "babelify": "^6.3.0",
     "browserify": "^11.2.0",
     "del": "^2.0.2",
