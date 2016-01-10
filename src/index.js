@@ -5,7 +5,6 @@ var browserify = require('browserify');
 var babelify = require('babelify');
 var plugins = require('gulp-load-plugins')();
 var source = require('vinyl-source-stream');
-var buffer = require('vinyl-buffer');
 var _ = require('lodash');
 
 function lintTask(src, opts) {
@@ -39,9 +38,7 @@ function jsTask(src, dst, opts) {
   return function() {
     opts = _.defaultsDeep({}, opts, {
       outFilename: 'scripts.js',
-      babel: {
-        presets: [ 'es2015', 'react' ]
-      }
+      babel: {}
     });
 
     return browserify({ entries: [ src ] })
