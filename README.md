@@ -2,7 +2,7 @@
 
 ##Installation
 ```
-npm install git+https://github.com/flammenmensch/gulp-common-tasks.git
+npm i --save-dev git+https://github.com/flammenmensch/gulp-common-tasks.git
 ```
 
 ##Usage
