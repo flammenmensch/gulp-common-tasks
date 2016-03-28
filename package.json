@@ -28,16 +28,20 @@
   "dependencies": {
     "babelify": "^7.2.0",
     "browserify": "^13.0.0",
-    "del": "^2.2.0",
+    "del": "2.2.0",
     "gulp-eslint": "^2.0.0",
     "gulp-load-plugins": "^1.2.0",
     "gulp-plumber-notifier": "0.0.3",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.2.0",
-    "lodash": "^4.6.1",
-    "run-sequence": "^1.1.5",
+    "gulp-zip": "3.2.0",
+    "object-assign": "4.0.1",
     "transform": "^1.1.2",
-    "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
+  },
+  "devDependencies": {
+    "del": "2.2.0",
+    "gulp-copy": "0.0.2",
+    "gulp-zip": "3.2.0"
   }
 }

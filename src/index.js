@@ -5,11 +5,13 @@ var browserify = require('browserify');
 var babelify = require('babelify');
 var plugins = require('gulp-load-plugins')();
 var source = require('vinyl-source-stream');
+var del = require('del');
+var objectAssign = require('object-assign');
 var _ = require('lodash');
 
 function lintTask(src, opts) {
   return function() {
-    opts = _.defaultsDeep({}, opts, {
+    opts = objectAssign({
       eslint: {
         ecmaFeatures: {
           jsx: true,
@@ -27,7 +29,7 @@ function lintTask(src, opts) {
           modules: true
         }
       }
-    });
+    }, opts);
 
     return gulp.src(src)
       .pipe(plugins.eslint(opts.eslint));
@@ -36,10 +38,10 @@ function lintTask(src, opts) {
 
 function jsTask(src, dst, opts) {
   return function() {
-    opts = _.defaultsDeep({}, opts, {
+    opts = objectAssign({
       outFilename: 'scripts.js',
       babel: {}
-    });
+    }, opts);
 
     return browserify({ entries: [ src ] })
       .transform(babelify.configure(opts.babel))
@@ -52,10 +54,10 @@ function jsTask(src, dst, opts) {
 
 function sassTask(src, dst, opts) {
   return function() {
-    opts = _.defaultsDeep({}, opts, {
+    opts = objectAssign({
       outFilename: 'styles.css',
       sass: {}
-    });
+    }, opts);
 
     return gulp.src(src)
       .pipe(plugins.plumberNotifier())
@@ -65,8 +67,40 @@ function sassTask(src, dst, opts) {
   }
 }
 
+function cleanTask(src) {
+  return function(callback) {
+    del(Array.isArray(src) ? src : [ src ], callback);
+  };
+}
+
+function distTask(src, dst, opts) {
+  return function() {
+    opts = objectAssign({
+      copy: { base: './' }
+    }, opts);
+
+    return gulp.src(src, opts.copy)
+      .pipe(gulp.dest(dst));
+  };
+}
+
+function zipTask(src, dst, opts) {
+  return function() {
+    opts = objectAssign({
+      outFilename: 'build.zip'
+    }, opts);
+
+    return gulp.src(src)
+      .pipe(plugins.zip(opts.outFilename))
+      .pipe(gulp.dest(dst));
+  };
+}
+
 module.exports = {
   js: jsTask,
   lint: lintTask,
-  sass: sassTask
+  sass: sassTask,
+  dist: distTask,
+  clean: cleanTask,
+  zip: zipTask
 };
