@@ -7,32 +7,29 @@ var plugins = require('gulp-load-plugins')();
 var source = require('vinyl-source-stream');
 var del = require('del');
 var objectAssign = require('object-assign');
-var _ = require('lodash');
+var runSequence = require('run-sequence');
 
 function lintTask(src, opts) {
   return function() {
     opts = objectAssign({
       eslint: {
+        extends: 'eslint:recommended',
+        env: {
+          browser: true,
+          node: true,
+          es6: true
+        },
+        ecmaVersion: 7,
         ecmaFeatures: {
-          jsx: true,
-          blockBindings: true,
-          classes: true,
-          arrowFunctions: true,
-          defaultParams: true,
-          destructuring: true,
-          forOf: true,
-          restParams: true,
-          templateStrings: true,
-          experimentalObjectRestSpread: true,
-          objectLiteralShorthandMethods: true,
-          objectLiteralShorthandProperties: true,
-          modules: true
+          jsx: true
         }
       }
     }, opts);
 
     return gulp.src(src)
-      .pipe(plugins.eslint(opts.eslint));
+      .pipe(plugins.eslint(opts.eslint))
+      .pipe(plugins.eslint.format())
+      .pipe(plugins.eslint.failAfterError());
   };
 }
 
@@ -68,12 +65,12 @@ function sassTask(src, dst, opts) {
 }
 
 function cleanTask(src) {
-  return function(callback) {
-    del(Array.isArray(src) ? src : [ src ], callback);
+  return function() {
+    return del(Array.isArray(src) ? src : [ src ]);
   };
 }
 
-function distTask(src, dst, opts) {
+function copyTask(src, dst, opts) {
   return function() {
     opts = objectAssign({
       copy: { base: './' }
@@ -96,11 +93,20 @@ function zipTask(src, dst, opts) {
   };
 }
 
+function asSequence() {
+  var args = Array.prototype.slice.call(arguments);
+
+  return function() {
+    return runSequence.apply(this, args);
+  };
+}
+
 module.exports = {
   js: jsTask,
   lint: lintTask,
   sass: sassTask,
-  dist: distTask,
+  copy: copyTask,
   clean: cleanTask,
-  zip: zipTask
+  zip: zipTask,
+  asSequence: asSequence
 };

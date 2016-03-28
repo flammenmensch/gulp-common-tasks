@@ -2,3 +2,7 @@
 .DS_Store*
 .npm-cache/
 node_modules/
+examples/sample-project/dist
+examples/sample-project/bundle.zip
+examples/sample-project/bundle.js
+examples/sample-project/styles.css
