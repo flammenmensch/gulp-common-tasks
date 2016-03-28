@@ -4,7 +4,7 @@
 
 ##Installation
 ```
-npm i --save-dev @flammentriebe/gulp-common-tasks
+npm i --save-dev gulp-common-tasks
 ```
 
 ##Usage
